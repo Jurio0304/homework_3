@@ -1,5 +1,7 @@
 # Built by Jurio. on 3/8/2020
-
+# 经查阅资料和询问同学，该方法作为法2进一步优化
+# 使用了python的scipy库中的优化函数，对圆心坐标进行优化
+# 找到了一定轮廓下最大内切圆的圆心，并通过循环直到找到m个圆的数据
 
 import random
 import math
@@ -109,7 +111,7 @@ def optimize_func(c_list):
     return lambda x: 1 - max_r(MaxCircle(x[0], x[1], 0), c_list)
 
 
-# 计算在给定圆的数量的情况下，r^2最大时对应的圆的列表。方法二
+# 寻找在给定圆的数量m时圆的列表
 def find_max_c_list(c_num):
     c_list = []
     # 向列表中添加新圆，直到总数符合要求
@@ -134,7 +136,6 @@ def find_max_c_list(c_num):
                 y = random.uniform(-1, 0)
         c = MaxCircle(x, y, 0)
         max_c = minimize(optimize_func(c_list), (c.x, c.y), method='SLSQP')
-        # 将新圆更新为局部最优解，并添加进列表
         c.x = float(max_c.x[0])
         c.y = float(max_c.x[1])
         c.r = max_r(c, c_list)
